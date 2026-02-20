@@ -1,0 +1,195 @@
+Tarea: Mejoras adicionales: LCEL, Prompt Templates, Streaming...
+📋 Objetivo
+
+En esta tarea transformarás tu chatbot básico en una aplicación más robusta y profesional. Aprenderás a implementar funcionalidades como configuración dinámica, templates de prompts, streaming de respuestas y mejor manejo de errores.
+
+⚠️ Importante: Esta tarea contiene conceptos avanzados y es completamente normal que no puedas completar todos los puntos en tu primer intento. No te preocupes si encuentras dificultades, el objetivo es que explores, experimentes y aprendas el proceso. La solución completa está disponible en la siguiente clase del curso para que puedas consultar y comparar tu progreso. ¡Haz lo que puedas y disfruta el proceso de aprendizaje!
+
+
+
+🎯 Lo que aprenderás
+
+PromptTemplate: Cómo crear prompts estructurados y reutilizables
+
+LCEL (LangChain Expression Language): El nuevo paradigma de cadenas en LangChain
+
+Streaming: Respuestas en tiempo real para mejor experiencia de usuario
+
+Configuración dinámica: Permitir al usuario ajustar parámetros del modelo
+
+Manejo de errores: Hacer tu aplicación más robusta
+
+
+
+🏁 Punto de partida
+
+Tu código actual debería verse similar al siguiente:
+
+from langchain_openai import ChatOpenAI
+from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
+import streamlit as st
+ 
+# Configurar la página de la app
+st.set_page_config(page_title="Chatbot Básico", page_icon="🤖")
+st.title("🤖 Chatbot Básico con LangChain")
+st.markdown("Este es un *chatbot de ejemplo* construido con LangChain + Streamlit. ¡Escribe tu mensaje abajo para comenzar!")
+ 
+chat_model = ChatOpenAI(model="gpt-4o-mini", temperature=0.5)
+ 
+# Inicializar el historial de mensajes
+if "mensajes" not in st.session_state:
+    st.session_state.mensajes = []
+ 
+# Mostrar mensajes previos en la interfaz
+for msg in st.session_state.mensajes:
+    if isinstance(msg, SystemMessage):
+        # No muestro el mensaje por pantalla
+        continue
+    
+    role = "assistant" if isinstance(msg, AIMessage) else "user"
+    with st.chat_message(role):
+        st.markdown(msg.content)
+ 
+# Cuadro de entrada de texto de usuario
+pregunta = st.chat_input("Escribe tu mensaje: ")
+ 
+if pregunta:
+    # Mostrar inmediatamente el mensaje del usuario en la interfaz
+    with st.chat_message("user"):
+        st.markdown(pregunta)
+    
+    # Almacenamos el mensaje en la memoria de streamlit
+    st.session_state.mensajes.append(HumanMessage(content=pregunta))
+    
+    # Generar respuesta usando el modelo de lenguaje
+    respuesta = chat_model.invoke(st.session_state.mensajes)
+    
+    # Mostrar la respuesta en la interfaz
+    with st.chat_message("assistant"):
+        st.markdown(respuesta.content)
+    
+    st.session_state.mensajes.append(respuesta)
+
+
+🛠️ Mejoras a implementar
+
+1. Sidebar de Configuración
+
+Objetivo: Permitir al usuario ajustar la temperatura y seleccionar el modelo.
+
+Pista: Usa st.sidebar para crear una barra lateral. Dentro de ella:
+
+with st.sidebar:
+    st.header("Configuración")
+    temperature = st.slider("Temperatura", 0.0, 1.0, 0.5, 0.1)
+    model_name = st.selectbox("Modelo", ["gpt-3.5-turbo", "gpt-4", "gpt-4o-mini"])
+    
+    # ¿Cómo recrearías el modelo con los nuevos parámetros?
+    chat_model = # ¡Completa aquí!
+
+
+Pregunta reflexiva: ¿Por qué es útil recrear el modelo cada vez que cambian los parámetros?
+
+
+
+2. Implementando PromptTemplate
+
+Objetivo: Crear un template estructurado que incluya el historial de conversación.
+
+Importación necesaria:
+
+from langchain_core.prompts import PromptTemplate
+
+Tu turno: Crea un PromptTemplate que:
+
+Tenga variables mensaje e historial
+
+Defina la personalidad del chatbot
+
+Use el historial para mantener contexto
+
+prompt_template = PromptTemplate(
+    input_variables=["mensaje", "historial"],
+    template="""Eres un asistente útil y amigable llamado ChatBot Pro. 
+ 
+Historial de conversación:
+{historial}
+ 
+Responde de manera clara y concisa a la siguiente pregunta: {mensaje}"""
+)
+
+
+3. LCEL - LangChain Expression Language
+
+Objetivo: Usar el nuevo paradigma de cadenas con el operador |.
+
+Concepto clave: LCEL permite encadenar componentes de forma intuitiva:
+
+# En lugar de usar cadenas tradicionales, ahora puedes hacer:
+cadena = prompt_template | chat_model
+
+
+¿Qué hace esto?: El operador | conecta el output del PromptTemplate directamente al input del ChatModel.
+
+
+
+4. Streaming de Respuestas
+
+Objetivo: Mostrar la respuesta del modelo palabra por palabra, como ChatGPT.
+
+Implementación sugerida:
+
+if pregunta:
+    with st.chat_message("user"):
+        st.markdown(pregunta)
+    
+    try:
+        with st.chat_message("assistant"):
+            response_placeholder = st.empty()
+            full_response = ""
+ 
+            # ¡Aquí está la magia del streaming!
+            for chunk in cadena.stream({"mensaje": pregunta, "historial": st.session_state.mensajes}):
+                full_response += chunk.content
+                response_placeholder.markdown(full_response + "▌")  # El cursor parpadeante
+            
+            response_placeholder.markdown(full_response)
+        
+        # No olvides almacenar los mensajes
+        st.session_state.mensajes.append(HumanMessage(content=pregunta))
+        st.session_state.mensajes.append(AIMessage(content=full_response))
+        
+    except Exception as e:
+        # ¿Qué tipo de errores podrían ocurrir aquí?
+        st.error(f"Error al generar respuesta: {str(e)}")
+        st.info("Verifica que tu API Key de OpenAI esté configurada correctamente.")
+
+
+Pregunta: ¿Qué representa el símbolo "▌" en el código anterior?
+
+
+
+5. Botón de Nueva Conversación
+
+Objetivo: Permitir al usuario limpiar el historial fácilmente.
+
+Pista simple:
+
+if st.button("🗑️ Nueva conversación"):
+    # ¿Qué necesitas limpiar?
+    # ¿Qué función de Streamlit refresca la página?
+
+
+💡 Reflexiones Finales
+
+¿Qué ventajas tiene usar PromptTemplate vs. strings simples?
+
+¿Cómo mejora LCEL la legibilidad del código?
+
+¿Por qué el streaming mejora la experiencia de usuario?
+
+¿Qué otros errores podrías manejar en una aplicación real?
+
+
+
+¡Diviértete construyendo y no dudes en experimentar con las funcionalidades! 🚀
