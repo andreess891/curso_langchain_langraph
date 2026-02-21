@@ -25,7 +25,7 @@ llm = ChatOpenAI(
 
 # Función de preprocesamiento
 def preprocess_text(text):
-    """Limpia el texto eliminando espacios extras y limitando longitud"""
+    """Limpia el texto, eliminando espacios extras y limitando longitud A 500 caracteres"""
     return text.strip()[:500]
 
 # Convertir la función de preprocesamiento en un Runnable
@@ -79,3 +79,28 @@ parallel_analysis = RunnableParallel({
 
 # Crear la cadena completa de procesamiento
 chain = preprocessor | parallel_analysis | merger
+
+
+# ----------------------------
+# Ejemplo de uso individual
+# ----------------------------
+
+#review = "Este producto es muy malo, se rompió al primer uso y el servicio al cliente fue terrible."
+
+#resultado = chain.invoke(review)
+#print(json.dumps(resultado, indent=2, ensure_ascii=False))
+
+# ----------------------------
+# Ejemplo de uso en batch
+# ----------------------------
+reviews_batch = [
+    "Este producto es excelente, superó mis expectativas y el servicio al cliente fue increíble.",
+    "El producto es decente, pero el envío fue lento y el servicio al cliente no respondió a mis consultas.",
+    "No me gustó el producto, se rompió rápidamente y el servicio al cliente fue inútil.",
+    "El producto es regular, funciona pero no es nada especial y el servicio al cliente fue aceptable."
+]
+
+
+resultado_batch = chain.batch(reviews_batch)
+
+print(json.dumps(resultado_batch, indent=2, ensure_ascii=False))
