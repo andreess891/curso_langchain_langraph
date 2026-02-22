@@ -4,7 +4,6 @@ from dotenv import load_dotenv,find_dotenv
 from langchain_openai import ChatOpenAI
 
 load_dotenv(find_dotenv())
-
 http_client = httpx.Client(verify=False)
 
 llm = ChatOpenAI(

@@ -1,11 +1,20 @@
+
+import httpx
+
+from dotenv import load_dotenv,find_dotenv
+
 from langchain_openai import ChatOpenAI
 from models.cv_model import AnalisisCV
 from prompts.cv_prompts import crear_sistema_prompts
 
+load_dotenv(find_dotenv())
+http_client = httpx.Client(verify=False)
+
 def crear_evaluador_cv():
     modelo_base = ChatOpenAI(
         model="gpt-4o-mini",
-        temperature=0.2
+        temperature=0.2,
+        http_client=http_client
     )
 
     modelo_estructurado = modelo_base.with_structured_output(AnalisisCV)
