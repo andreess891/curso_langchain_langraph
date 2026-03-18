@@ -214,3 +214,10 @@ uv.lock
 
 # macOS
 .DS_Store
+
+# Google Credentials
+credentials.json
+token.json
+
+# Base de datos vectorial de Chroma
+chroma_database/

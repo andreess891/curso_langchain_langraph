@@ -18,4 +18,4 @@ print(f"pregunta: {pregunta}")
 
 respuesta = llm.invoke(pregunta)
 
-print(f"Respuesta del modelo: {respuesta.content}")
+print(f"Respuesta del modelo: {respuesta}")
