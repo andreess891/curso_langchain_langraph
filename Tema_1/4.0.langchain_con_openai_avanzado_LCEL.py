@@ -20,7 +20,7 @@ plantilla = PromptTemplate(
     template="Saluda al usuario con su nombre. \nNombre del usuario {nombre}\n¿Cuál es la capital de {pais}? Solo dame la respuesta sin explicaciones."
 )
 
-#Aqui está la magia de LEL, podemos encadenar la plantilla con el modelo de lenguaje de una forma muy sencilla y elegante, sin necesidad de crear una clase LLMChain ni nada por el estilo, simplemente usando el operador "|" para encadenar la plantilla con el modelo de lenguaje.
+#Aqui está la magia de LCEL, podemos encadenar la plantilla con el modelo de lenguaje de una forma muy sencilla y elegante, sin necesidad de crear una clase LLMChain ni nada por el estilo, simplemente usando el operador "|" para encadenar la plantilla con el modelo de lenguaje.
 chain = plantilla | chat
 
 resultado =chain.invoke({"nombre":"Jonatan", "pais":"Francia"})

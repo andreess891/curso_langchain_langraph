@@ -11,7 +11,7 @@ http_client = httpx.Client(verify=False)
 
 vector_store = Chroma(
     embedding_function=OpenAIEmbeddings(model="text-embedding-3-large", http_client=http_client),
-    persist_directory="chroma_database/"
+    persist_directory="chroma_db/"
 )
 
 llm = ChatOpenAI(
@@ -23,7 +23,7 @@ llm = ChatOpenAI(
 base_retriever = vector_store.as_retriever(search_type="similarity", search_kwargs={"k": 2})
 retriever = MultiQueryRetriever.from_llm(retriever=base_retriever, llm=llm)
 
-consulta = "¿Donde se enceuntra el local del contrato en el que participa María Jiménez Campos?"
+consulta = "¿Donde se encuentra el local del contrato en el que participa María Jiménez Campos?"
 
 resultados = retriever.invoke(consulta)
 

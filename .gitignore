@@ -220,4 +220,4 @@ credentials.json
 token.json
 
 # Base de datos vectorial de Chroma
-chroma_database/
+chroma_db/
