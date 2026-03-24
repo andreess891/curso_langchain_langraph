@@ -18,4 +18,5 @@ dependencies = [
     "google-auth-oauthlib",
     "PyPDF2",
     "chromadb",
+    "langgraph",
 ]
