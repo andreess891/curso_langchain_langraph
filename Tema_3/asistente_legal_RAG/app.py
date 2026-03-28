@@ -1,6 +1,10 @@
 import streamlit as st
 from rag_system import query_rag, get_retriever_info
 
+##### PARA EJECUTAR LOCALMENTE #####
+# uv run streamlit run app.py
+####################################
+
 # Configuración de la página
 st.set_page_config(
     page_title="Sistema RAG - Asistente Legal",

@@ -19,4 +19,5 @@ dependencies = [
     "PyPDF2",
     "chromadb",
     "langgraph",
+    "langgraph-checkpoint-sqlite",
 ]

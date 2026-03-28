@@ -221,3 +221,8 @@ token.json
 
 # Base de datos vectorial de Chroma
 chroma_db/
+
+# Base de datos SQLite
+helpdesk.db
+helpdesk.db-shm
+helpdesk.db-wal
