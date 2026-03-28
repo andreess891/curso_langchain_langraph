@@ -14,6 +14,12 @@ load_dotenv(find_dotenv())
 
 http_client = httpx.Client(verify=False)
 
+# Los annotated types permiten agregar metadatos adicionales a los tipos, lo que es útil para proporcionar 
+# información extra a los nodos del grafo. En este caso, usamos Annotated para agregar una etiqueta "add" 
+# a la lista de logs, lo que indica que queremos acumular los logs a medida que avanzamos por el workflow. 
+# Esto nos permite mantener un historial de los pasos completados y cualquier información relevante durante 
+# la ejecución del grafo.
+
 # Configuración
 llm = ChatOpenAI(model="gpt-4o-mini", temperature=0.3, http_client=http_client)
 

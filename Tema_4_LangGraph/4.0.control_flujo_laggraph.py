@@ -1,6 +1,9 @@
 from typing import TypedDict
 from langgraph.graph import StateGraph, START, END
 
+# En este ejemplo, creamos un grafo de estados simple que determina si un número es par o impar.
+# Se usa la funcion add_conditional_edges para decidir la rama de ejecución basada en el valor del número.
+
 # Definir el estado
 class State(TypedDict):
     numero: int
