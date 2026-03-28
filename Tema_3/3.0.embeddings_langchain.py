@@ -8,6 +8,12 @@ from langchain_openai import OpenAIEmbeddings
 load_dotenv(find_dotenv())
 http_client = httpx.Client(verify=False)
 
+# Un embedding es una representación numérica de un texto que captura su significado semántico. 
+# Los modelos de embeddings transforman palabras, frases o documentos en vectores de alta dimensión, 
+# donde la proximidad entre los vectores refleja la similitud semántica entre los textos originales. 
+# Esto permite a las máquinas entender y comparar el significado de los textos, facilitando tareas como 
+# la búsqueda, clasificación y generación de lenguaje natural.
+
 # Crear una instancia de OpenAIEmbeddings
 embeddings = OpenAIEmbeddings(
     model="text-embedding-3-large", http_client=http_client

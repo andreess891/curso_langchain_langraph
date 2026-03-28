@@ -10,6 +10,11 @@ from langchain_openai import OpenAIEmbeddings
 load_dotenv(find_dotenv())
 http_client = httpx.Client(verify=False)
 
+# Los retrievers son componentes que permiten recuperar información relevante de un vector store basado en una consulta. 
+# En este ejemplo, se utiliza el método as_retriever de Chroma para crear un retriever que realiza búsquedas de similitud 
+# en el vector store, devolviendo los documentos más relevantes para una consulta dada. Esto facilita la recuperación de 
+# información específica dentro de un conjunto de documentos almacenados
+
 vector_store = Chroma(
     embedding_function=OpenAIEmbeddings(model="text-embedding-3-large", http_client=http_client),
     persist_directory="chroma_database/"

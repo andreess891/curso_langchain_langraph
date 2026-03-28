@@ -11,6 +11,11 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 load_dotenv(find_dotenv())
 http_client = httpx.Client(verify=False)
 
+# Los vector stores son estructuras de datos que almacenan vectores de embeddings junto con sus metadatos asociados. 
+# Permiten realizar búsquedas eficientes y recuperar información relevante basada en la similitud semántica entre 
+# los vectores. En este ejemplo, se utiliza Chroma como vector store para almacenar los embeddings generados a partir 
+# de documentos PDF, lo que facilita la búsqueda de información específica dentro de esos documentos.
+
 loader = PyPDFDirectoryLoader("contratos")
 documentos = loader.load()
 

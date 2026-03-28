@@ -9,6 +9,12 @@ from langchain.retrievers.multi_query import MultiQueryRetriever
 load_dotenv(find_dotenv())
 http_client = httpx.Client(verify=False)
 
+# El multi-query retriever es una extensión de los retrievers tradicionales que permite realizar múltiples 
+# consultas para recuperar información más relevante y diversa. En este ejemplo, se utiliza un modelo de 
+# lenguaje para generar consultas adicionales basadas en la consulta original del usuario, lo que mejora 
+# la capacidad de recuperación de información al considerar diferentes formulaciones y perspectivas de la 
+# misma pregunta.
+
 vector_store = Chroma(
     embedding_function=OpenAIEmbeddings(model="text-embedding-3-large", http_client=http_client),
     persist_directory="chroma_db/"
