@@ -1,7 +1,9 @@
 from langchain_core.messages import HumanMessage, AIMessage
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 
-# Los MessagesPlaceholder permiten incluir una lista de mensajes en el prompt, manteniendo el contexto de la conversación. En este ejemplo, se utiliza para incluir el historial de la conversación antes de la pregunta actual del usuario.
+# Los MessagesPlaceholder permiten incluir una lista de mensajes en el prompt, manteniendo 
+# el contexto de la conversación. En este ejemplo, se utiliza para incluir el historial de 
+# la conversación antes de la pregunta actual del usuario.
 
 chat_prompt = ChatPromptTemplate.from_messages([
     ("system", "Eres un asistente útil que mantiene el contexto de la conversación."),
