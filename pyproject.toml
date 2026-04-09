@@ -20,5 +20,7 @@ dependencies = [
     "chromadb",
     "langgraph",
     "langgraph-checkpoint-sqlite",
-    "langchain-chroma"
+    "langchain-chroma",
+    "langchain-experimental",
+    "wikipedia",
 ]
