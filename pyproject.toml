@@ -23,4 +23,5 @@ dependencies = [
     "langchain-chroma",
     "langchain-experimental",
     "wikipedia",
+    "langgraph-supervisor",
 ]
